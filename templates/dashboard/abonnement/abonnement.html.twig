@@ -1,0 +1,336 @@
+{% extends 'baseBack.html.twig' %}
+
+        {% block title %}
+          Abonnements
+        {% endblock %}
+{% block dashboard_wrapper %}
+           <style>
+            .table-responsive{
+                overflow-y:auto;
+                max-height:650px;  
+            }
+            .modal{
+                    position:fixed;
+                    top:15%;
+                    left:40%;
+                    z-index:1050;
+                    display:none;
+                    overflow:hidden;
+                    outline:0
+                }
+                .button-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100%; /* Ensure button container takes full height */
+                }
+
+                .button-group {
+                    display: flex;
+                    gap: 10px; /* Adjust as needed */
+                }
+
+           </style>
+           <script>
+                document.getElementById('cancelBtn').addEventListener('click', function() {
+                    window.location.href = '{{ path('productsPage') }}'; // Replace 'productsPage' with the actual route name for your product page
+                });
+                 document.getElementById('popupBanBtn').addEventListener('click', function() {
+                    $(document).ready(function() {
+                        $('#addNewMemberModal').modal('show'); // Show the modal when modify is true
+                    });
+                });
+                document.getElementById('popupStatisticsBtn').addEventListener('click', function() {
+                    $(document).ready(function() {
+                        $('#StatisticsModal').modal('show'); // Show the modal when modify is true
+                    });
+                });
+            </script>
+            {% if modify %}
+                <script>
+                    $(document).ready(function() {
+                        $('#addProductModal').modal('show'); // Show the modal when modify is true
+                    });
+                </script>
+            {% endif %}
+
+            {% if dataStatistics %}
+                <script>
+                    (function(window, document, $, undefined) {
+                        "use strict";
+
+                        $(function() {
+                            // Check if the chart element exists
+                            if ($('#chartjs_doughnut').length) {
+                                var ctx = document.getElementById("chartjs_doughnut").getContext('2d');
+
+                                // Define the dynamic data from your Twig template
+                                var labels = [];
+                                var data = [];
+                                {% for item in dataStatistics %}
+                                    labels.push("{{ item.categoryName }}");
+                                    data.push({{ item.memberCount }});
+                                {% endfor %}
+
+                                var myChart = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: labels,
+                                        datasets: [{
+                                            backgroundColor: [
+                                                "#5969ff",
+                                                "#ff407b",
+                                                "#25d5f2",
+                                                "#ffc750",
+                                                "#2ec551",
+                                                "#7040fa",
+                                                "#ff004e"
+                                            ],
+                                            data: data
+                                        }]
+                                    },
+                                    options: {
+                                        legend: {
+                                            display: true,
+                                            position: 'bottom',
+                                            labels: {
+                                                fontColor: '#71748d',
+                                                fontFamily: 'Circular Std Book',
+                                                fontSize: 14,
+                                            }
+                                        },
+                                    }
+                                });
+                            }
+                        });
+
+                    })(window, document, window.jQuery);
+                        
+               </script>
+            {% endif %}
+
+
+
+           <div class="dashboard-wrapper">
+            <div class="dashboard-ecommerce">
+                <div class="container-fluid dashboard-content ">          
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Abonnements Page</h2>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="" class="breadcrumb-link">Gestion Abonnements</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Abonnements</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ecommerce-widget">
+                        <div class="row">
+                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+                                <div class="card">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h5 class="card-header">Our Abonnements</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-success " id="popupStatisticsBtn" data-toggle="modal" data-target="#StatisticsModal">
+                                                Statistics
+                                            </button>                                       
+                                        </div>
+                                         <div class="col-auto">
+                                            <button class="btn btn-dark " id="popupBanBtn" data-toggle="modal" data-target="#addNewMemberModal">
+                                                Ban a Member
+                                            </button>                                       
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-primary m-r-10" id="popupAddBtn" data-toggle="modal" data-target="#addProductModal">
+                                                <i class="fas fa-plus-circle"></i> 
+                                            </button>                                       
+                                        </div>
+
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                        <th class="border-0">Id</th>
+                                                        <th class="border-0">Category</th>
+                                                        <th class="border-0">Name</th>
+                                                        <th class="border-0">Duree</th>
+                                                        <th class="border-0">Prix</th>
+                                                        <th class="border-0">Fidelite</th>
+                                                        <th class="border-0">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for abonnement in abonnements %}
+                                                             <tr>
+                                                                <td>{{ abonnement.id }}</td>
+                                                                <td>{{ abonnement.category }}</td>
+                                                                <td>{{ abonnement.nom }}</td>
+                                                                <td>{{ abonnement.duree }}</td>
+                                                                <td>{{ abonnement.prix }}</td>
+                                                                <td>{{ abonnement.fidelite }}</td>
+                                                                <td class="button-container">
+                                                                    <div class="button-group">
+                                                                        <a href="{{ path('save_abonnement', {id: abonnement.id}) }}" class="btn btn-rounded btn-warning">Edit</a>
+                                                                        <a href="{{ path('delete_abonnement', {id: abonnement.id}) }}" class="btn btn-rounded btn-danger">Delete</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>     
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12">
+                                <div class="product-sidebar">
+                                    <div class="product-sidebar-widget">
+                                        <h4 class="mb-0">Filter</h4>
+                                    </div>
+                                    <form id="filterForm" method="post" action="{{path('filtre_abonnement')}}">
+                                        <div class="product-sidebar-widget">
+                                            <h4 class="product-sidebar-widget-title">Prix</h4>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="minprix" name="minprix" placeholder="Min Prix">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="maxprix" name="maxprix" placeholder="Max Prix">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="product-sidebar-widget">
+                                            <h4 class="product-sidebar-widget-title">Duree</h4>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="minDuree" name="minDuree" placeholder="Min Duree">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="maxDuree" name="maxDuree" placeholder="Max Duree">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="product-sidebar-widget">
+                                            <button type="submit" class="btn btn-outline-light">Reset Filter</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>             
+                        </div>
+                            <div class="card modal fade" id="addProductModal"style="width: 450px; height: 550px;" >
+                                <div class="card-header">
+                                    Add New Abonnement
+                                </div>
+                                <div class="card-body">
+                                    <form method="post" action="{{ abonnement ? path('save_abonnement', {id: abonnement.id}) : path('save_abonnement') }}" enctype="multipart/form-data">
+                                        {{ form_start(form) }}
+                                            <div class="form-group">
+                                                {{ form_row(form.category) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form_row(form.nom) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form_row(form.duree) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form_row(form.prix) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form_row(form.fidelite) }}
+                                            </div>
+                                            
+                                            <div class="row form-group">
+                                                <div class="col">
+                                                    {{ form_row(form.save) }}
+                                                </div>
+                                                <div class="col">
+                                                    <a href="{{ path('abonnementPage')}}" class="btn btn-rounded btn-warning">Cancel</a>
+                                                </div>
+                                            </div>
+                                        {{ form_end(form) }}
+                                    </form>
+                                </div>
+                            </div>         
+                            <div class="card modal fade" id="addNewMemberModal"style="width: 450px; height: 303px;" >
+                                <div class="card-header">
+                                    Ban a Member
+                                </div>
+                                <div class="card-body">
+                                {# your_template.html.twig #}
+
+                                <form method="post" action="{{ path('banMember') }}">
+                                    {{ form_start(formBan) }}
+                                    <div class="form-group">
+                                        {{ form_row(formBan.abonnement) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ form_row(formBan.user) }}
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col">
+                                            {{ form_row(formBan.Ban) }}
+                                        </div>
+                                        <div class="col">
+                                            <a href="{{ path('abonnementPage') }}" class="btn btn-rounded btn-warning">Cancel</a>
+                                        </div>
+                                    </div>
+                                    {{ form_end(formBan) }}
+                                </form>
+
+
+                                </div>
+
+                            </div> 
+ 
+                            <div class="card modal fade" id="StatisticsModal" style="width: 550px; height: 400px;">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h5 class="card-header">Doughnut Statistics| Number of Members in each category </h5>
+                                    </div>               
+                                    <div class="col-auto">
+                                        <a href="{{ path('abonnementPage')}}" class="btn btn-rounded btn-danger"> <i class="fas fa-times"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <canvas id="chartjs_doughnut"></canvas>
+                                </div>
+                            </div>             
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                             Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+          </div>
+{% endblock %}

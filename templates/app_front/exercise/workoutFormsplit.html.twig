@@ -1,0 +1,138 @@
+{% extends 'baseFront.html.twig' %}
+
+    {% block title %}
+     <title>Workout Plan Split </title>
+    {% endblock %}
+
+{% block main %}
+  <main>
+    <article>
+     
+      <section class="section hero bg-dark has-after has-bg-image" id="home" aria-label="hero" data-section
+      style="background-image: url('./assets/images/hero-bg.png')">
+        <div class="containerworkout">
+          <div class="heading">
+            <p>workout plan</p>
+            <h2>This Is your Split Workout Plan</h2>
+          </div>
+          <div class="price">   
+            <div class="price-card">
+              <div class="price-wrapper">
+                <div class="info">
+                  <div><img src="/img/Group 39506.png" alt="" /></div>
+                  <div>
+                    <h2>Chest Day</h2>
+                  </div>
+                </div>  
+                    <div class="details">
+                        <ul>
+                          {% set i = 1 %}
+                          {% for exercise in workoutplan['ChestDay'] %}
+                              {% if i <= 6 %}
+                                  <li><strong class="chcolor">Ex{{ i }}:</strong>{{ exercise.name }}</li>
+                              {% endif %}
+                              {% set i = i + 1 %}
+                          {% endfor %}
+                        </ul>
+                    </div>
+              </div>
+            </div>
+    
+            <div class="price-card">
+              <div class="price-wrapper">
+                <div class="info">
+                  <div><img src="/img/Group 39506.png" alt="" /></div>
+                  <div>
+                    <h2>Back Day</h2>
+                  </div>
+                </div>  
+                    <div class="details">
+                        <ul>
+                          {% set i = 1 %}
+                          {% for exercise in workoutplan['BackDay'] %}
+                              {% if i <= 6 %}
+                                  <li><strong class="chcolor">Ex{{ i }}:</strong>{{ exercise.name }}</li>
+                              {% endif %}
+                              {% set i = i + 1 %}
+                          {% endfor %}
+                        </ul>
+                    </div>
+              </div>
+            </div>
+                
+            <div class="price-card">
+              <div class="price-wrapper">
+                <div class="info">
+                  <div><img src="/img/Group 39506.png" alt="" /></div>
+                  <div>
+                    <h2>Shoulder Day</h2>
+                  </div>
+                </div>  
+                   <div class="details">
+                        <ul>
+                          {% set i = 1 %}
+                          {% for exercise in workoutplan['ShoulderDay'] %}
+                              {% if i <= 6 %}
+                                  <li><strong class="chcolor">Ex{{ i }}:</strong>{{ exercise.name }}</li>
+                              {% endif %}
+                              {% set i = i + 1 %}
+                          {% endfor %}
+                        </ul>
+                    </div>
+              </div>
+            </div>
+                
+            <div class="price-card">
+              <div class="price-wrapper">
+                <div class="info">
+                  <div><img src="/img/Group 39506.png" alt="" /></div>
+                  <div>
+                    <h2>Leg Day</h2>
+                  </div>
+                </div>  
+                   <div class="details">
+                        <ul>
+                          {% set i = 1 %}
+                          {% for exercise in workoutplan['LegDay'] %}
+                              {% if i <= 6 %}
+                                  <li><strong class="chcolor">Ex{{ i }}:</strong>{{ exercise.name }}</li>
+                              {% endif %}
+                              {% set i = i + 1 %}
+                          {% endfor %}
+                        </ul>
+                    </div>
+    
+              </div>
+            </div>
+                
+            <div class="price-card">
+              <div class="price-wrapper">
+                <div class="info">
+                  <div><img src="/img/Group 39506.png" alt="" /></div>
+                  <div>
+                    <h2>Arm Day</h2>
+                  </div>
+                </div>  
+                   <div class="details">
+                        <ul>
+                          {% set i = 1 %}
+                          {% for exercise in workoutplan['AbsDay'] %}
+                              {% if i <= 3 %}
+                                  <li><strong class="chcolor">Ex{{ i }}:</strong>{{ exercise.name }}</li>
+                              {% endif %}
+                              {% set i = i + 1 %}
+                          {% endfor %}
+                        </ul>
+                    </div>
+    
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ICONS -->
+      <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+ 
+    </article>
+  </main>
+{% endblock %}

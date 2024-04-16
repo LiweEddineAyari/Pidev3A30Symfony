@@ -1,0 +1,140 @@
+{% extends 'baseFront.html.twig' %}
+
+    {% block title %}
+     <title>Abonnement</title>
+    {% endblock %}
+
+{% block main %}
+  <main>
+    <article>
+     
+      <section class="section class bg-dark has-bg-image" id="class" aria-label="class"
+      style="background-image: url('./assets/images/classes-bg.png')">
+      <div class="container">
+
+        <p class="section-subtitle">Our Classes</p>
+
+        <h2 class="h2 section-title text-center">Fitness Classes For Every Goal</h2>
+
+        <div class="card-containerr">
+          {% for abonnement in abonnements %}
+                <div class="class-card">
+                    <figure class="card-banner img-holder" style="--width: 416; --height: 240;">
+                    <img src="{{asset('assetsFront/images/class-1.jpg')}}" width="416" height="240" loading="lazy" alt="Weight Lifting"
+                        class="img-cover">
+                    </figure>
+        
+                    <div class="card-content">
+        
+                    <div class="title-wrapper">
+                        <img src="{{asset('assetsFront/images/class-icon-1.png')}}" width="52" height="52" aria-hidden="true" alt=""
+                        class="title-icon">
+        
+                        <h4 class="h3">
+                        <a style="cursor: pointer ; "class="card-title">{{abonnement.category}}</a>
+                        <a style="cursor: pointer ; "class="card-title">{{abonnement.nom}}</a>
+                        </h4>
+                    </div>
+                    <br>
+                    <div class="card-progress">
+                        <button class="btn btn-primary subscribe-btn" data-toggle="modal" data-target="#cartModal"
+                        data-abonnement-id="{{ abonnement.id }}">Subscribe</button>               
+                   </div>
+        
+                    </div>
+                </div>
+          {% endfor %}
+
+        </div>
+        
+      </div>
+          
+          <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Subscribe 
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <form id="subscribeForm" action="{{ path('Subscribe') }}">
+                        <div class="form-group">
+                            <label for="cartname">Cart Name:</label>
+                            <input type="text" id="cartname" name="cartname" required>
+                            <input type="hidden" id="abonnementid" name="abonnementid">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="cartcode">Cart Code:</label>
+                            <input type="text" id="cartcode" name="cartcode" required>
+                        </div>
+                        <br>
+                        <button type="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            </div>
+         </div>
+
+    </section>
+
+      <!-- ICONS -->
+      <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+ 
+    </article>
+  </main>
+
+  <style>
+    /* Form container styling */
+    .modal-content {
+        background-color: var(--rich-black-fogra-29-2);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Form styling */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        color: var(--silver-metallic);
+        font-size: 18px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--cadet-gray);
+        border-radius: 5px;
+        font-size: 16px;
+        color: var(--white);
+        background-color: var(--coquelicot);
+    }
+
+
+</style>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var subscribeButtons = document.querySelectorAll('.subscribe-btn');
+        subscribeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var abonnementid = button.getAttribute('data-abonnement-id');
+                document.getElementById('abonnementid').value = abonnementid; // Set abonnement ID in hidden input
+            });
+        });
+    });
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+              <title>Fitlife - Work Hard To Get Better Life</title>
+    {% endblock %}
+  <!-- 
+    - favicon
+  -->
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+  <!-- 
+    - custom css link
+  -->
+  <link rel="stylesheet" href="{{asset('assetsFront/css/style.css')}}">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Catamaran:wght@600;700;800;900&family=Rubik:wght@400;500;800&display=swap"
+    rel="stylesheet">
+
+  <!-- 
+    - preload images
+  -->
+ <link rel="preload" as="image" href="{{asset('assetsFront/images/hero-banner.png')}}">
+ <link rel="preload" as="image" href="{{asset('assetsFront/images/hero-circle-one.png')}}">
+ <link rel="preload" as="image" href="{{asset('assetsFront/images/hero-circle-two.png')}}">
+ <link rel="preload" as="image" href="{{asset('assetsFront/images/heart-rate.svg')}}">
+ <link rel="preload" as="image" href="{{asset('assetsFront/images/calories.svg')}}">
+
+</head>
+
+<body id="top">
+
+  <!-- 
+    - #HEADER
+  -->
+
+  <header class="header" data-header>
+        <div class="container">
+
+            <a href="{{path('app_front')}}"  class="logo">
+                <ion-icon name="barbell-sharp" aria-hidden="true"></ion-icon>
+                <span class="span">Fitlife</span>
+            </a>
+
+            <nav class="navbar" data-navbar>
+
+                <button class="nav-close-btn" aria-label="close menu" data-nav-toggler>
+                <ion-icon name="close-sharp" aria-hidden="true"></ion-icon>
+                </button>
+
+                <ul class="navbar-list">
+
+                <li>
+                    <a href="{{path('app_front')}}"  class="navbar-link active" data-nav-link>Home</a>
+                </li>
+
+                <li>
+                    <a href="{{path('productsPage_Front')}}" class="navbar-link" data-nav-link>Products</a>
+                </li>
+
+                <li>
+                    <a href="{{path('abonnementsPage_Front')}}" class="navbar-link" data-nav-link>Subscription</a>
+                </li>
+
+                <li>
+                    <a href="{{path('coachPage_Front')}}" class="navbar-link" data-nav-link>Coach</a>
+                </li>
+
+                <li>
+                    <a href="{{path('gymPage_Front')}}" class="navbar-link" data-nav-link>Gym</a>
+                </li>
+
+                <li>
+                    <a href="{{path('favorite')}}" class="navbar-link" data-nav-link>My favorite</a>
+                </li>
+
+                <li>
+                    <a href="event.html" class="navbar-link" data-nav-link>Events</a>
+                </li>
+
+                <li>
+                    <a href="{{path('workoutPlanFormPage')}}" class="navbar-link" data-nav-link>Workout Plan</a>
+                </li>
+
+                </ul>
+
+            </nav>
+
+            <a href="{{path('app_front_signin')}}" class="btn btn-secondary">Join Now</a>
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cartModal">
+                View Cart
+            </button>  
+            <button class="nav-open-btn" aria-label="open menu" data-nav-toggler>
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </button>
+
+        </div>
+  </header>
+   
+    {% block main %}
+       main
+    {% endblock %}
+
+
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <footer class="footer">
+
+    <div class="section footer-top bg-dark has-bg-image" style="background-image: url('./assets/images/footer-bg.png')">
+      <div class="container">
+
+        <div class="footer-brand">
+
+          <a href="#" class="logo">
+            <ion-icon name="barbell-sharp" aria-hidden="true"></ion-icon>
+
+            <span class="span">Fitlife</span>
+          </a>
+
+          <p class="footer-brand-text">
+            Etiam suscipit fringilla ullamcorper sed malesuada urna nec odio.
+          </p>
+
+          <div class="wrapper">
+
+            <img src="./assets/images/footer-clock.png" width="34" height="34" loading="lazy" alt="Clock">
+
+            <ul class="footer-brand-list">
+
+              <li>
+                <p class="footer-brand-title">Monday - Friday</p>
+
+                <p>7:00Am - 10:00Pm</p>
+              </li>
+
+              <li>
+                <p class="footer-brand-title">Saturday - Sunday</p>
+
+                <p>7:00Am - 2:00Pm</p>
+              </li>
+
+            </ul>
+
+          </div>
+
+        </div>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title has-before">Our Links</p>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Home</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">About Us</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Classes</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Blog</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Contact Us</a>
+          </li>
+
+        </ul>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title has-before">Contact Us</p>
+          </li>
+
+          <li class="footer-list-item">
+            <div class="icon">
+              <ion-icon name="location" aria-hidden="true"></ion-icon>
+            </div>
+
+            <address class="address footer-link">
+              1247/Plot No. 39, 15th Phase, Colony, Kukatpally, Hyderabad
+            </address>
+          </li>
+
+          <li class="footer-list-item">
+            <div class="icon">
+              <ion-icon name="call" aria-hidden="true"></ion-icon>
+            </div>
+
+            <div>
+              <a href="tel:18001213637" class="footer-link">1800-121-3637</a>
+
+              <a href="tel:+915552348765" class="footer-link">+91 555 234-8765</a>
+            </div>
+          </li>
+
+          <li class="footer-list-item">
+            <div class="icon">
+              <ion-icon name="mail" aria-hidden="true"></ion-icon>
+            </div>
+
+            <div>
+              <a href="mailto:info@fitlife.com" class="footer-link">info@fitlife.com</a>
+
+              <a href="mailto:services@fitlife.com" class="footer-link">services@fitlife.com</a>
+            </div>
+          </li>
+
+        </ul>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title has-before">Our Newsletter</p>
+          </li>
+
+          <li>
+            <form action="" class="footer-form">
+              <input type="email" name="email_address" aria-label="email" placeholder="Email Address" required
+                class="input-field">
+
+              <button type="submit" class="btn btn-primary" aria-label="Submit">
+                <ion-icon name="chevron-forward-sharp" aria-hidden="true"></ion-icon>
+              </button>
+            </form>
+          </li>
+
+          <li>
+            <ul class="social-list">
+
+              <li>
+                <a href="#" class="social-link">
+                  <ion-icon name="logo-facebook"></ion-icon>
+                </a>
+              </li>
+
+              <li>
+                <a href="#" class="social-link">
+                  <ion-icon name="logo-instagram"></ion-icon>
+                </a>
+              </li>
+
+              <li>
+                <a href="#" class="social-link">
+                  <ion-icon name="logo-twitter"></ion-icon>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+
+        <p class="copyright">
+          &copy; 2022 Fitlife. All Rights Reserved By <a href="#" class="copyright-link">codewithsadee.</a>
+        </p>
+
+        <ul class="footer-bottom-list">
+
+          <li>
+            <a href="#" class="footer-bottom-link has-before">Privacy Policy</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-bottom-link has-before">Terms & Condition</a>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+
+  </footer>
+
+
+
+
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'>
+    
+  <!-- Style CSS -->
+  <link rel="stylesheet" href="{{asset('assetsFront/css/shop.css')}}">
+<!-- Demo CSS (No need to include it into your project) -->
+
+    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-bottom-0">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Your Shopping Cart
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="{{path('checkOut')}}" method="post">
+              <table class="table table-image">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for product in app.session.get('panier', []) %}
+                    <tr>
+                      <td class="w-25">
+                        <img src="{{ asset('assets/images/' ~ product.imageUrl) }}" class="img-fluid img-thumbnail" alt="{{ product.name }}">
+                      </td>
+                      <td>{{ product.name }}</td>
+                      <td>{{ product.price }}$</td>
+                      <td><input type="number" class="form-control" name="quantities[{{ product.id }}]" value="1"></td>
+                      <td>{{ product.price }}$</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table> 
+              <button type="submit" class="btn btn-success">Checkout</button>
+            </form>
+          </div>
+          <div class="modal-footer border-top-0 d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <link rel="stylesheet" href="{{asset('assetsFront/css/style.css')}}">
+  <link rel="stylesheet" href="{{asset('assetsFront/css/styles.css')}}">
+
+  <!-- 
+    - #BACK TO TOP
+  -->
+
+  <a href="#top" class="back-top-btn" aria-label="back to top" data-back-top-btn>
+    <ion-icon name="caret-up-sharp" aria-hidden="true"></ion-icon>
+  </a>
+
+
+
+
+
+  <!-- 
+    - custom js link
+  -->
+  <script  href="{{asset('assetsFront/js/script.js')}}"></script> > 
+
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    
+<script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>
+<script  href="{{asset('assetsFront/js/shop.js')}}"></script> > 
+<script>
+  function toggleIconColor(event) {
+      event.preventDefault();
+      const icon = event.currentTarget.querySelector('ion-icon');
+      icon.classList.toggle('clicked');
+  }
+
+</script> > 
+
+
+</body>
+
+</html>

@@ -1,0 +1,247 @@
+{% extends 'baseBack.html.twig' %}
+
+        {% block title %}
+          Paiment
+        {% endblock %}
+
+
+{% block dashboard_wrapper %}
+           <style>
+            .table-responsive{
+                overflow-y:auto;
+                max-height:650px;  
+            }
+            .modal{
+                    position:fixed;
+                    top:15%;
+                    left:40%;
+                    z-index:1050;
+                    display:none;
+                    overflow:hidden;
+                    outline:0
+                }
+                .button-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100%; /* Ensure button container takes full height */
+                }
+
+                .button-group {
+                    display: flex;
+                    gap: 10px; /* Adjust as needed */
+                }
+
+           </style>
+            {% if modify %}
+                <script>
+                    $(document).ready(function() {
+                        $('#addProductModal').modal('show'); // Show the modal when modify is true
+                    });
+                </script>
+            {% endif %}
+
+{% if statisticsData %}
+<script>
+    (function(window, document, $, undefined) {
+        "use strict";
+
+        $(function() {
+            // Check if the chart element exists
+            if ($('#chartjs_doughnut').length) {
+                var ctx = document.getElementById("chartjs_doughnut").getContext('2d');
+
+                // Define the dynamic data from your Twig template
+                var labels = [];
+                var data = [];
+                {% for item in statisticsData %}
+                    labels.push("{{ item.month }}");
+                    data.push({{ item.income }});
+                {% endfor %}
+
+                var myChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            backgroundColor: [
+                                "#5969ff",
+                                "#ff407b",
+                                "#25d5f2",
+                                "#ffc750",
+                                "#2ec551",
+                                "#7040fa",
+                                "#ff004e",
+                                "#5969ff",
+                                "#ff407b",
+                                "#25d5f2",
+                                "#ffc750",
+                                "#2ec551",
+                            ],
+                            data: data
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                fontColor: '#71748d',
+                                fontFamily: 'Circular Std Book',
+                                fontSize: 14,
+                            }
+                        },
+                    }
+                });
+            }
+        });
+
+    })(window, document, window.jQuery);
+</script>
+{% endif %}
+
+
+
+           <div class="dashboard-wrapper">
+            <div class="dashboard-ecommerce">
+                <div class="container-fluid dashboard-content ">          
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Paiment Page</h2>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="" class="breadcrumb-link">Gestion Paiment</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Paiment</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ecommerce-widget">
+                        <div class="row">
+                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+                                <div class="card">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h5 class="card-header">Our Paiments</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-success m-r-10 " id="popupStatisticsBtn" data-toggle="modal" data-target="#StatisticsModal">
+                                                Statistics
+                                            </button>                                       
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                         <th class="border-0">Id</th>
+                                                         <th class="border-0">Id User</th>
+                                                         <th class="border-0">Montant</th>
+                                                         <th class="border-0">Cart Name</th>
+                                                         <th class="border-0">Cart Code</th>
+                                                         <th class="border-0">Date</th>
+                                                         <th class="border-0">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for paiment in paiments %}
+                                                            <tr>
+                                                                <td>{{ paiment.id }}</td>
+                                                                <td>{{ paiment.user }}</td>
+                                                                <td>{{ paiment.montant }}</td>                       
+                                                                <td>{{ paiment.cartname }}</td>
+                                                                <td>{{ paiment.cartCode }}</td>
+                                                                <td>{{ paiment.date|date('Y-m-d') }}</td>
+                                                                <td class="button-container">
+                                                                    <div class="button-group">
+                                                                        <a href="{{ path('save_paiment', {id: paiment.id}) }}" class="btn btn-rounded btn-warning">Edit</a>
+                                                                        <a href="{{ path('delete_paiment', {id: paiment.id}) }}" class="btn btn-rounded btn-danger">Delete</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                
+                        </div>
+                            <div class="card modal fade" id="addProductModal"style="width: 450px; height: 300px;" >
+                                <div class="card-header">
+                                    Edit Paiment 
+                                </div>
+                                <div class="card-body">
+                                    <form method="post" action="{{paiment ? path('save_paiment', {id: paiment.id}) : path('save_paiment')}}" enctype="multipart/form-data">
+                                        {{ form_start(form) }}
+
+                                            <div class="form-group">
+                                                {{ form_row(form.montant) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form_row(form.cartname) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form_row(form.cartcode) }}
+                                            </div>
+                                            <br/>
+                                            <div class="row form-group">
+                                                <div class="col">
+                                                    {{ form_row(form.save) }}
+                                                </div>
+                                                <div class="col">
+                                                    <a href="{{ path('paimentPage')}}" class="btn btn-rounded btn-warning">Cancel</a>
+                                                </div>
+                                            </div>
+
+                                        {{ form_end(form) }}
+                                    </form>
+                                </div>
+
+                            </div>        
+                            <div class="card modal fade" id="StatisticsModal" style="width: 550px; height: 400px;">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h5 class="card-header">Doughnut Statistics| Income In Each Month   </h5>
+                                    </div>               
+                                    <div class="col-auto">                                           
+                                        <a href="{{ path('paimentPage')}}" class="btn btn-rounded btn-danger"> <i class="fas fa-times"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <canvas id="chartjs_doughnut"></canvas>
+                                </div>
+                            </div>                 
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                             Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+          </div>
+{% endblock %}

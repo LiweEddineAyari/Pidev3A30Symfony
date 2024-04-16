@@ -1,0 +1,201 @@
+{% extends 'baseBack.html.twig' %}
+
+        {% block title %}
+          Commandes
+        {% endblock %}
+
+
+{% block dashboard_wrapper %}
+           <style>
+            .table-responsive{
+                overflow-y:auto;
+                max-height:650px;  
+            }
+            .modal{
+                    position:fixed;
+                    top:15%;
+                    left:40%;
+                    z-index:1050;
+                    display:none;
+                    overflow:hidden;
+                    outline:0
+                }
+                .button-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100%; /* Ensure button container takes full height */
+                }
+
+                .button-group {
+                    display: flex;
+                    gap: 10px; /* Adjust as needed */
+                }
+
+           </style>
+            {% if modify %}
+                <script>
+                    $(document).ready(function() {
+                        $('#addProductModal').modal('show'); // Show the modal when modify is true
+                    });
+                </script>
+            {% endif %}
+
+
+           <div class="dashboard-wrapper">
+            <div class="dashboard-ecommerce">
+                <div class="container-fluid dashboard-content ">          
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Commandes Page</h2>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="" class="breadcrumb-link">Gestion Commandes</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Commandes</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ecommerce-widget">
+                        <div class="row">
+                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+                                <div class="card">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h5 class="card-header">Our Commandes</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                         <th class="border-0">Id</th>
+                                                         <th class="border-0">Id User</th>
+                                                         <th class="border-0">Id Panier</th>
+                                                         <th class="border-0">Montant</th>
+                                                         <th class="border-0">Statut</th>
+                                                         <th class="border-0">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for commande in commandes %}
+                                                            <tr>
+                                                                <td>{{ commande.id }}</td>
+                                                                <td>{{ commande.user }}</td>
+                                                                <td>{{ commande.panier }}</td>
+                                                                <td>{{ commande.montant }}</td>                       
+                                                                <td>{{ commande.statut }}</td>                       
+                                                                <td class="button-container">
+                                                                    <div class="button-group">
+                                                                        <a href="{{ path('save_commande', {id: commande.id}) }}" class="btn btn-rounded btn-warning">Edit</a>
+                                                                        <a href="{{ path('delete_commande', {id: commande.id}) }}" class="btn btn-rounded btn-danger">Delete</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>       
+                                                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12">
+                                <div class="product-sidebar">
+                                    <div class="product-sidebar-widget">
+                                        <h4 class="mb-0">Filter</h4>
+                                    </div>
+                                    <form method="post" action="{{ path('filtre_commandes') }}">
+                                        <div class="product-sidebar-widget">
+                                            <h4 class="product-sidebar-widget-title">Statut</h4>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="statut-1" name="statut" value="Valide">
+                                                <label class="custom-control-label" for="statut-1">Valide</label>
+                                            </div>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="statut-2" name="statut" value="Rejete">
+                                                <label class="custom-control-label" for="statut-2">Rejete</label>
+                                            </div>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="statut-3" name="statut" value="Encours">
+                                                <label class="custom-control-label" for="statut-3">Encours</label>
+                                            </div>
+                                        </div>
+                                        <div class="product-sidebar-widget">
+                                            <h4 class="product-sidebar-widget-title">Montant</h4>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="minMontant" name="minMontant" placeholder="Min Montant">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="maxMontant" name="maxMontant" placeholder="Max Montant">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div
+
+                                        <div class="product-sidebar-widget">
+                                            <button type="submit" class="btn btn-outline-light">Reset Filter</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>             
+                        </div>
+                            <div class="card modal fade" id="addProductModal"style="width: 450px; height: 300px;" >
+                                <div class="card-header">
+                                    Edit Commande
+                                </div>
+                                <div class="card-body">
+                                    <form method="post" action="{{commande ? path('save_commande', {id: commande.id}) : path('save_commande')}}" enctype="multipart/form-data">
+                                        {{ form_start(form) }}
+
+                                            <div class="form-group">
+                                                {{ form_row(form.statut) }}
+                                            </div>
+
+                                            <br/>
+                                            <div class="row form-group">
+                                                <div class="col">
+                                                    {{ form_row(form.save) }}
+                                                </div>
+                                                <div class="col">
+                                                    <a href="{{ path('commandesPage')}}" class="btn btn-rounded btn-warning">Cancel</a>
+                                                </div>
+                                            </div>
+
+                                        {{ form_end(form) }}
+                                    </form>
+                                </div>
+
+                            </div>                        
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                             Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+          </div>
+{% endblock %}

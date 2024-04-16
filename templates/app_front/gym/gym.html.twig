@@ -1,0 +1,57 @@
+{% extends 'baseFront.html.twig' %}
+
+    {% block title %}
+     <title>Gyms</title>
+    {% endblock %}
+
+{% block main %}
+
+  <main>
+    <article>
+     
+      <section class="section class bg-dark has-bg-image" id="class" aria-label="class"
+      style="background-image: url('./assets/images/classes-bg.png')">
+      <div class="container">
+
+        <p class="section-subtitle">Our Gyms</p>
+
+        <h2 class="h2 section-title text-center">Join a gym now</h2>
+
+        <div class="card-containerr">
+           {% for gym in gyms %}
+            <div class="class-cardCoach">
+                <figure class="card-banner img-holder" style="--width: 416; --height: 240;">
+                <img src="{{asset('assetsFront/images/class-2.jpg')}}" width="416" height="240" loading="lazy" alt="Weight Lifting"
+                    class="img-cover">
+                </figure>
+                <br>
+                <div class="card-contentC">
+    
+                <div class="title-wrapperC">
+                    <h3 class="h3">
+                    <a href="#" class="card-title">{{gym.nom}}</a>
+                    </h3>
+                    <h3 class="h3">
+                    <a href="#" class="card-title">{{gym.clientNumber}}</a>
+                    </h3>
+                </div>
+                
+                <div class="card-progressC">
+                    <button class="btn btn-primary">join</button>
+                </div>
+    
+                </div>
+          </div>
+           {% endfor %}
+
+        </div>
+        
+      </div>
+    </section>
+
+      <!-- ICONS -->
+      <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+ 
+    </article>
+  </main>
+{% endblock %}
