@@ -54,4 +54,41 @@ class AppFrontController extends AbstractController
         }
         return $this->render('app_front/signin.html.twig');
     }
+
+
+    
+    #[Route('/app/login', name: 'save_client')]
+    public function save(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Check if the request method is POST
+        if ($request->isMethod('POST')) {
+            // Create a new Account entity
+            $client = new Account();
+            $client->setTitle("user");
+            
+            // Set entity properties based on form data
+            $client->setName($request->request->get('firstName'));
+            $client->setPrenom($request->request->get('lastName'));
+            $client->setAge($request->request->get('age'));
+            $client->setMail($request->request->get('email'));
+            $client->setMotpasse($request->request->get('password')); 
+            $client->setPhonenumber($request->request->get('phoneNumber'));
+    
+            // Persist the entity to the database
+            $entityManager->persist($client);
+            $entityManager->flush();
+    
+            // Redirect to the homepage or any other appropriate route
+            return $this->redirectToRoute('app_front');
+        }
+    
+        // If the request method is not POST, render the sign-up form
+        return $this->render('app_front/index.html.twig');
+    }
+    
+    
+    
+    
+
+
 }
