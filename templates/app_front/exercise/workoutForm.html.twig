@@ -1,0 +1,64 @@
+{% extends 'baseFront.html.twig' %}
+
+    {% block title %}
+     <title>Workout Plan</title>
+    {% endblock %}
+
+{% block main %}
+  <main>
+    <article>
+     
+      <section class="section hero bg-dark has-after has-bg-image" id="home" aria-label="hero" data-section
+        style="background-image: url('{{asset('assetsFront/images/hero-bg.png')}}')">
+          <div class="containerr">
+          <form action="{{path('workoutplanLoad')}}"  method="post">
+              <h2>Workout Plan Recommendation System</h2>
+              <label>Goal:</label><br><br>
+                <div class="form-group">
+                    <input type="radio" id="growth" name="goal" value="Growth">
+                    <label for="growth">Growth</label><br>
+                    <input type="radio" id="strength" name="goal" value="Strength">
+                    <label for="strength">Strength</label><br>
+                    <input type="radio" id="cardio" name="goal" value="Cardio">
+                    <label for="cardio">Cardio</label><br>
+                </div>
+                <label>Type:</label><br><br>
+                <div class="form-group">
+                    <input type="radio" id="split" name="type" value="Split">
+                    <label for="split">Split</label><br>
+                    <input type="radio" id="push-pull-leg" name="type" value="Push Pull Leg">
+                    <label for="push-pull-leg">Push Pull Leg</label><br>
+                </div>
+                <label>Fitness Level:</label><br><br>
+                <div class="form-group">
+                    <input type="radio" id="beginner" name="level" value="Easy">
+                    <label for="beginner">Beginner</label><br>
+                    <input type="radio" id="intermediate" name="level" value="Medium">
+                    <label for="intermediate">Intermediate</label><br>
+                    <input type="radio" id="advanced" name="level" value="Advanced">
+                    <label for="advanced">Advanced</label><br>
+                </div>
+                <label>Where do you plan to exercise:</label><br><br>
+                <div class="form-group">
+                    <input type="radio" id="gym" name="location" value="Yes">
+                    <label for="gym">Gym</label><br>
+                    <input type="radio" id="homee" name="location" value="No">
+                    <label for="homee">Home</label><br>
+                </div>
+                <label>Do you have serious problems:</label><br><br>
+                <div class="form-group">
+                    <input type="radio" id="yes" name="problems" value="Yes">
+                    <label for="yes">Yes</label><br>
+                    <input type="radio" id="no" name="problems" value="No">
+                    <label for="no">No</label><br>
+                </div>
+                <button type="submit"class="btn btn-secondary">Submit</button>
+            </form>
+        </div>
+      </section>
+      <!-- ICONS -->
+      <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+ 
+    </article>
+  </main>
+{% endblock %}

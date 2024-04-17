@@ -1,0 +1,105 @@
+{% extends 'baseFront.html.twig' %}
+
+    {% block title %}
+     <title>{ {product.name} }</title>
+    {% endblock %}
+
+{% block main %}
+  <main>
+    <article>
+
+      <section class="section hero bg-dark has-after has-bg-image" id="home" aria-label="hero" data-section
+      style="background-image: url('./assets/images/hero-bg.png')">
+       <div class="container">
+        <p class="section-subtitle">Product Details</p>
+       </div> 
+       <br>
+       <br>
+      </section>
+
+      <div class="container"><h1 class=" hero-title" style="font-size: 35px;">Product Details</h1></div>      
+    <div class = "cardd-wrapper">
+      <div class = "cardd">
+        <!-- card left -->
+        <div class = "product-imgs">
+          <div class = "img-display">
+            <div class = "img-showcase">
+              <img src="{{ asset('assets/images/' ~ product.imageUrl) }}" alt = "shoe image">
+            </div>
+          </div>
+        </div>
+        <!-- card right -->
+        <div class = "product-content">
+          <h2 class = "product-title"style="font-size: 36px;" >{{ product.name }}</h2>
+          <div class = "product-price">
+            <p class = "new-price" style="font-size: 23px;">Price: <span>{{ product.price }} TND </span></p>
+            <p class = "new-price" style="font-size: 23px;">Ref:{{ product.ref }} <span> </span></p>
+          </div>
+
+          <div class = "product-detail">
+            <p style="font-size: 15px;">{{ product.description }}</p>
+          </div>    
+        </div>
+      </div>
+    </div>
+    <div>
+
+      <div class="container"><h1 class=" hero-title" style="font-size: 35px;">Exercises Related To this Product</h1></div>
+      <section class="section about main bd-grid "style="margin-top:5px ; padding: top: 5px;;">
+        {% for exercise in exercises %}
+            
+            <article class="card" style="max-width:300px;">
+                <div class="card__img">
+                    <img src="{{ asset('assets/images/' ~ exercise.img) }}" alt="">
+                </div>
+                <div class="card__name">
+                    <p>{{ exercise.name }}</p>
+                </div>
+                <div class="card__precis">
+                    <div>
+                        <span class="card__preci card__preci--before" style="font-size: 15px;">{{ exercise.target }}</span>
+                        <span class="card__preci card__preci--now" style="font-size: 15px;">{{ exercise.name }}</span>
+                    </div>
+                    {% if favoritesById is not empty %}
+                            {% set exerciseId = exercise.id %}
+                             {% set isFavorite = exerciseId in favoritesById %}                
+                        <a href="{{ path('favoritecheck', {'id': exercise.id}) }}" class="card__icon {{ isFavorite ? "clicked" : "" }}" onclick="toggleIconColor(); return false;">
+                            <ion-icon name="heart" class="heart-icon"></ion-icon>
+                        </a>
+                    {% else %}
+                      <a href="{{ path('favoritecheck', {'id': exercise.id}) }}" class="card__icon" onclick="toggleIconColor(); return false;">
+                          <ion-icon name="heart" class="heart-icon"></ion-icon>
+                      </a>
+                    {% endif %}
+                </div>
+            </article>
+        {% endfor %}
+      </section>
+      
+    </div>
+      <!-- ICONS -->
+      <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+ 
+    </article>
+  </main>
+
+  <script>
+    function toggleIconColor(event) {
+      event.preventDefault();
+      const icon = event.currentTarget.querySelector('card__icon');
+      icon.classList.toggle('clicked');
+    }
+  </script>
+
+  <style>
+      .card__icon {
+        font-size: 1.5rem;
+        color: var(--dark-color);
+        cursor: pointer;
+    }
+
+    .clicked {
+        color: var(--accent-color);
+    }
+  </style>
+{% endblock %}
