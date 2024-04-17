@@ -1,0 +1,67 @@
+{% extends 'baseFront.html.twig' %}
+
+    {% block title %}
+     <title>My Favorite</title>
+    {% endblock %}
+
+{% block main %}
+ <main>
+    <article>
+     
+      <section class="section hero bg-dark has-after has-bg-image" id="home" aria-label="hero" data-section
+      style="background-image: url('./assets/images/hero-bg.png')">
+       <div class="container">
+        <p class="section-subtitle">Favorite Exercises</p>
+       </div> 
+       <br>
+       <br>
+      </section>
+
+      <div class="container"><h1 class=" hero-title" style="font-size: 35px;">My Favorite </h1></div>      
+
+      <section class="section about main bd-grid "style="margin-top:5px ; padding: top: 5px;;">
+      {% if favorites is not empty %}
+          {% for exercise in favorites %}
+            <article class="card" style="max-width:300px;">
+                <div class="card__img">
+                    <img src="{{ asset('assets/images/' ~ exercise.img) }}" alt="">
+                </div>
+                <div class="card__name">
+                    <p>{{ exercise.name }}</p>
+                </div>
+                <div class="card__precis">
+                    <div>
+                        <span class="card__preci card__preci--before" style="font-size: 15px;">{{ exercise.target }}</span>
+                        <span class="card__preci card__preci--now" style="font-size: 15px;">{{ exercise.name }}</span>
+                    </div>
+                    <a   href="{{ path('favoritecheck', {'id': exercise.id}) }}" class="card__icon clicked" onclick="toggleIconColor()"><ion-icon name="heart"></ion-icon></a>
+                </div>
+            </article>
+          {% endfor %}
+      {% endif %}
+
+
+      <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+ 
+    </article>
+ </main>
+   <script>
+    function toggleIconColor(event) {
+      event.preventDefault();
+      const icon = event.currentTarget.querySelector('card__icon');
+      icon.classList.toggle('clicked');
+    }
+  </script>
+
+  <style>
+      .card__icon {
+        font-size: 1.5rem;
+        color: var(--dark-color);
+        cursor: pointer;
+    }
+
+    .clicked {
+        color: var(--accent-color);
+    }
+  </style>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'baseFront.html.twig' %}
+
+    {% block title %}
+     <title>Products</title>
+    {% endblock %}
+
+{% block main %}
+  <main>
+    <article>
+     
+      <section class="section hero bg-dark has-after has-bg-image" id="home" aria-label="hero" data-section
+      style="background-image: url('{{asset('assetsFront/images/hero-bg.png')}}')">
+       <div class="container">
+        <p class="section-subtitle">Our Products</p>
+       </div> 
+       <br>
+       <br>
+      </section>
+
+      <div class="container"><h1 class=" hero-title" style="font-size: 35px;">Products</h1></div>      
+
+            <section class="section about main bd-grid">
+                {% for product in products %}
+                    {% if product.id != -1 %}
+                        <article class="card" style="max-width:300px;">
+                            <div class="card__img">
+                                <img src="{{ asset('assets/images/' ~ product.imageUrl) }}" alt="{{ product.name }}">
+                            </div>
+                            <div class="card__name">
+                                <p>{{ product.name }}</p>
+                            </div>
+                            <div class="card__precis">
+                                <a href="{{ path('product_details', { 'id': product.id }) }}" class="card__icon"><ion-icon name="chevron-forward-sharp" aria-hidden="true"></ion-icon></a>
+                                <div>
+                                    <span class="card__preci card__preci--before" style="font-size: 15px;">{{ product.price }} TND</span>
+                                    <span class="card__preci card__preci--now" style="font-size: 15px;">{{ product.description }}</span>
+                                </div>
+                                <a href="{{ path('addToCart', {'id': product.id}) }}" class="card__icon"><ion-icon name="cart-outline"></ion-icon></a>
+                            </div>
+                       </article>
+                    {% endif %}
+                {% endfor %}
+            </section>
+
+
+      <!-- ICONS -->
+      <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+ 
+    </article>
+  </main>
+
+
+        {% if pay is defined %}
+            <div class="modal show" id="cartModal2" tabindex="41" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:block;">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Subscribe 
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="subscribeForm" action="{{ path('paimentProduct') }}">
+                            <div class="form-group">
+                                <label for="cartname">Cart Name:</label>
+                                <input type="text" id="cartname" name="cartname" required>
+                                <input type="hidden" id="montant" name="montant" {% if montant is defined %}value="{{ montant }}"{% endif %} required>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="cartcode">Cart Code:</label>
+                                <input type="text" id="cartcode" name="cartcode" required>
+                            </div>
+                            <br>
+                            <button type="btn btn-primary">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+          <style>
+    /* Form container styling */
+    .modal-content {
+        background-color: var(--rich-black-fogra-29-2);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Form styling */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        color: var(--silver-metallic);
+        font-size: 18px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--cadet-gray);
+        border-radius: 5px;
+        font-size: 16px;
+        color: var(--white);
+        background-color: var(--coquelicot);
+    }
+
+
+</style>
+
+
+{% endblock %}

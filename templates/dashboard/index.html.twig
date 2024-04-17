@@ -1,0 +1,13 @@
+{% extends 'baseBack.html.twig' %}
+
+        {% block title %}
+            {% if app.session.has('account') %}
+                {{ app.session.get('account').name }} - {{ app.session.get('account').title }} | Your Website Title
+            {% else %}
+                Welcome | Your Website Title
+            {% endif %}
+        {% endblock %}
+
+{% block dashboard_wrapper %}
+   <h1>Dashboard </h1>
+{% endblock %}

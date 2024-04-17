@@ -1,0 +1,122 @@
+{% extends 'baseBack.html.twig' %}
+
+        {% block title %}
+          Clients
+        {% endblock %}
+
+
+{% block dashboard_wrapper %}
+           <style>
+            .table-responsive{
+                overflow-y:auto;
+                max-height:650px;  
+            }
+            .modal{
+                    position:fixed;
+                    top:15%;
+                    left:40%;
+                    z-index:1050;
+                    display:none;
+                    overflow:hidden;
+                    outline:0
+                }
+                .button-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100%; /* Ensure button container takes full height */
+                }
+
+                .button-group {
+                    display: flex;
+                    gap: 10px; /* Adjust as needed */
+                }
+
+           </style>
+           <div class="dashboard-wrapper">
+            <div class="dashboard-ecommerce">
+                <div class="container-fluid dashboard-content ">          
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Clients Page</h2>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="" class="breadcrumb-link">Gestion Clients</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Clients</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ecommerce-widget">
+                        <div class="row">
+                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+                                <div class="card">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h5 class="card-header">Our Clients</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                        <th class="border-0">Id</th>
+                                                        <th class="border-0">Name</th>
+                                                        <th class="border-0">First Name</th>
+                                                        <th class="border-0">Age</th>
+                                                         <th class="border-0">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for client in clients %}
+                                                            <tr>
+                                                                <td>{{ client.id }}</td>
+                                                                <td>{{ client.name }}</td>
+                                                                <td>{{ client.prenom }}</td>
+                                                                <td>{{ client.age }}</td>
+                                                                <td class="button-container">
+                                                                    <div class="button-group">
+                                                                    <a  class="btn btn-rounded btn-success">Chat</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                             Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+          </div>
+{% endblock %}

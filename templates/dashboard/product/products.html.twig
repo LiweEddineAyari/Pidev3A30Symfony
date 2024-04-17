@@ -1,0 +1,195 @@
+{% extends 'baseBack.html.twig' %}
+
+        {% block title %}
+          Products
+        {% endblock %}
+
+{% block dashboard_wrapper %}
+           <style>
+            .table-responsive{
+                overflow-y:auto;
+                max-height:650px;  
+            }
+            .modal{
+                    position:fixed;
+                    top:15%;
+                    left:40%;
+                    z-index:1050;
+                    display:none;
+                    overflow:hidden;
+                    outline:0
+                }
+                .button-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100%; /* Ensure button container takes full height */
+                }
+
+                .button-group {
+                    display: flex;
+                    gap: 10px; /* Adjust as needed */
+                }
+
+           </style>
+           <script>
+                document.getElementById('cancelBtn').addEventListener('click', function() {
+                    window.location.href = '{{ path('productsPage') }}'; // Replace 'productsPage' with the actual route name for your product page
+                });
+            </script>
+            {% if modify %}
+                <script>
+                    $(document).ready(function() {
+                        $('#addProductModal').modal('show'); // Show the modal when modify is true
+                    });
+                </script>
+            {% endif %}
+
+
+           <div class="dashboard-wrapper">
+            <div class="dashboard-ecommerce">
+                <div class="container-fluid dashboard-content ">          
+                   <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Products Page</h2>
+                                <div class="page-breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="" class="breadcrumb-link">Gestion Product</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">Products</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ecommerce-widget">
+                        <div class="row">
+                            <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12">
+                                <div class="card">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h5 class="card-header">Our Products</h5>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-primary m-r-10" id="popupAddBtn" data-toggle="modal" data-target="#addProductModal">
+                                                <i class="fas fa-plus-circle"></i> Add Product
+                                            </button>                                       
+                                         </div>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead class="bg-light">
+                                                    <tr class="border-0">
+                                                        <th class="border-0">Id</th>
+                                                        <th class="border-0">Image</th>
+                                                        <th class="border-0">Product Name</th>
+                                                        <th class="border-0">Ref</th>
+                                                        <th class="border-0">Price</th>
+                                                        <th class="border-0">Quantity</th>
+                                                        <th class="border-0">Weight</th>
+                                                        <th class="border-0">Description</th>
+                                                        <th class="border-0">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for product in products %}
+                                                         {% if product.id != -1 %}
+                                                            <tr>
+                                                                <td>{{ product.id }}</td>
+                                                                <td>
+                                                                    <div class="m-r-10"><img src="{{ asset('assets/images/' ~ product.imageUrl) }}" alt="user" class="rounded" width="45"></div>
+                                                                </td>
+                                                                <td>{{ product.name }}</td>
+                                                                <td>{{ product.ref }}</td>
+                                                                <td>{{ product.price }}</td>
+                                                                <td>{{ product.quantity }}</td>
+                                                                <td>{{ product.weight }}</td>
+                                                                <td>{{ product.description }}</td>
+                                                                <td class="button-container">
+                                                                    <div class="button-group">
+                                                                        <a href="{{ path('save_product', {id: product.id}) }}" class="btn btn-rounded btn-warning">Edit</a>
+                                                                        <a href="{{ path('delete_product', {id: product.id}) }}" class="btn btn-rounded btn-danger">Delete</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                         {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>              
+                        </div>
+                            <div class="card modal fade" id="addProductModal"style="width: 450px; height: 750px;" >
+                                <div class="card-header">
+                                    Add New Product
+                                </div>
+                                <div class="card-body">
+                                  <form method="post" action="{{ product ? path('save_product', {id: product.id}) : path('save_product') }}"enctype="multipart/form-data">
+                                    {{ form_start(form) }}
+                                                <div class="form-group">
+                                                    {{ form_row(form.name) }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ form_row(form.ref) }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ form_row(form.price) }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ form_row(form.quantity) }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ form_row(form.weight) }}
+                                                </div>
+                                                <div class="form-group">
+                                                     {{ form_widget(form.imageUrl) }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ form_row(form.description) }}
+                                                </div>                                                                                                                                                                                                                                                                                               
+                                                <br/>
+                                                <div class="row form-group">
+                                                    <div class="col">
+                                                        {{ form_row(form.save) }}
+                                                    </div>
+                                                    <div class="col">
+                                                        <a href="{{ path('productsPage')}}" class="btn btn-rounded btn-warning">Cancel</a>
+                                                    </div
+                                                </div>
+                                                
+                                    {{ form_end(form) }}
+                                    </form>
+                                </div>
+                            </div>                        
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                             Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+          </div>
+{% endblock %}

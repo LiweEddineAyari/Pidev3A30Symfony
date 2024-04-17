@@ -1,0 +1,54 @@
+{% extends 'baseFront.html.twig' %}
+
+    {% block title %}
+     <title>Coaches</title>
+    {% endblock %}
+
+{% block main %}
+
+  <main>
+    <article>
+     
+      <section class="section class bg-dark has-bg-image" id="class" aria-label="class"
+      style="background-image: url('./assets/images/classes-bg.png')">
+      <div class="container">
+
+        <p class="section-subtitle">Our Coaches</p>
+
+        <h2 class="h2 section-title text-center">Fitness Classes For Every Goal</h2>
+
+        <div class="card-containerr">
+           {% for coach in coaches %}
+            <div class="class-cardCoach">
+                <figure class="card-banner img-holder" style="--width: 416; --height: 240;">
+                <img src="{{asset('assetsFront/images/class-1.jpg')}}" width="416" height="240" loading="lazy" alt="Weight Lifting"
+                    class="img-cover">
+                </figure>
+                <br>
+                <div class="card-contentC">
+    
+                <div class="title-wrapperC">
+                    <h3 class="h3">
+                    <a href="#" class="card-title">{{coach.name}}</a>
+                    </h3>
+                </div>
+                
+                <div class="card-progressC">
+                    <button class="btn btn-primary">Open Chat</button>
+                </div>
+    
+                </div>
+          </div>
+           {% endfor %}
+
+        </div>
+        
+      </div>
+    </section>
+
+      <!-- ICONS -->
+      <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+ 
+    </article>
+  </main>
+{% endblock %}
