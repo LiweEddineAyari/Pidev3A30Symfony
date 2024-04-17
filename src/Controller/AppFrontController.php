@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Account;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,17 +58,19 @@ class AppFrontController extends AbstractController
 
 
     
-    #[Route('/app/login', name: 'save_client')]
+    #[Route('/app/signup', name: 'save_client')]
     public function save(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Check if the request method is POST
-        if ($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) { 
+
             // Create a new Account entity
             $client = new Account();
             $client->setTitle("user");
             
             // Set entity properties based on form data
             $client->setName($request->request->get('firstName'));
+            
             $client->setPrenom($request->request->get('lastName'));
             $client->setAge($request->request->get('age'));
             $client->setMail($request->request->get('email'));
